@@ -26,6 +26,7 @@ public class ProxyFactory {
 
         // 读取用户配置
         Object proxyInstance = Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class[]{interfaceClass}, new InvocationHandler() {
+            //读取用户配置 代理方式
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
@@ -43,6 +44,7 @@ public class ProxyFactory {
                 // 通过HttpClient发送
                 HttpClient httpClient = new HttpClient();
 
+                // 注册中心
                 // 服务发现
                 List<URL> list = RemoteMapRegister.get(interfaceClass.getName());
 
@@ -54,7 +56,7 @@ public class ProxyFactory {
                 int max = 3;
                 while(max > 0){
 
-                    // 负载均衡
+                    // (客户端)负载均衡 读取用户配置 想用什么负载均衡
                     list.remove(invokedUrls);
                     URL url = Loadbalance.random(list);
                     invokedUrls.add(url);
@@ -67,6 +69,7 @@ public class ProxyFactory {
 
                         // error-callback=com.hx.HelloServiceErrorCallBack (implements HelloService)
                         // 报错后执行这个类中对应的方法sayHello，可以重写
+                        // 读取用户的配置 class+方法名
                         // 服务容错
                         return "报错了";
                     }

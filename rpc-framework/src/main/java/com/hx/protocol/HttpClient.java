@@ -30,11 +30,12 @@ public class HttpClient {
             oos.flush();
             oos.close();
 
-            InputStream inputStream = httpURLConnection.getInputStream();//阻塞式获取，一定要等结果返回，才会继续执行
+            //阻塞式获取，等待响应结果，一定要等结果返回，才会继续执行
+            InputStream inputStream = httpURLConnection.getInputStream();
             String result = IOUtils.toString(inputStream);
             return result;
         } catch (MalformedURLException e) {
-
+            e.printStackTrace();
         } catch (IOException e) {
             throw e;
         }

@@ -15,12 +15,14 @@ public class HttpServerHandler {
 
     public void handler(HttpServletRequest req, HttpServletResponse resp) {
 
-        // 处理请求 --> 接口、方法、方法参数
+        // 处理请求的逻辑 --> 接口、方法、方法参数
         try {
             Invocation invocation = (Invocation) new ObjectInputStream(req.getInputStream()).readObject();
+            //接口名
             String interfaceName = invocation.getInterfaceName();
-
+            //实现类
             Class implClass = LocalRegister.get(interfaceName,"1.0");// 默认版本号
+            //反射
             Method method = implClass.getMethod(invocation.getMethodName(), invocation.getParamTypes());
             String result = (String) method.invoke(implClass.newInstance(), invocation.getParams());
 

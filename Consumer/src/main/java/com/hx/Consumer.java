@@ -1,7 +1,5 @@
 package com.hx;
 
-import com.hx.common.Invocation;
-import com.hx.protocol.HttpClient;
 import com.hx.proxy.ProxyFactory;
 
 /**

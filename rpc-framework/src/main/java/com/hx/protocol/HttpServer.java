@@ -21,6 +21,7 @@ public class HttpServer {
 
     public void start(String hostname,Integer port){
         // 读取用户的配置 server.name=netty Nacos
+        // Tomcat,Jetty
         Tomcat tomcat = new Tomcat();
 
         Server server = tomcat.getServer();
@@ -46,6 +47,8 @@ public class HttpServer {
         service.setContainer(engine);
         service.addConnector(connector);
 
+        // tomcat是一个servlet容器
+        // tomcat启动后要交给servlet处理请求
         tomcat.addServlet(contextPath, "dispatcher", new DispatcherServlet());
         context.addServletMappingDecoded("/*", "dispatcher");
 
