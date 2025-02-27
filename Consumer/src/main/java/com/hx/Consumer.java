@@ -2,6 +2,7 @@ package com.hx;
 
 import com.hx.common.Invocation;
 import com.hx.protocol.HttpClient;
+import com.hx.proxy.ProxyFactory;
 
 /**
  * ClassName: Consumer
@@ -14,17 +15,10 @@ import com.hx.protocol.HttpClient;
  */
 public class Consumer {
     public static void main(String[] args) {
-        // HelloService helloService = ?;
-        // String result = helloService.sayHello("dilireba");
-        // System.out.println(result);
 
-        // Invocation对象通过请求的方式发送出去
-        Invocation invocation = new Invocation(HelloService.class.getName(),"sayHello",
-                new Class[]{String.class},new Object[]{"dilireba"});
-
-        // 通过HttpClient发送
-        HttpClient httpClient = new HttpClient();
-        String result = httpClient.send("localhost", 8080, invocation);
+        HelloService helloService = ProxyFactory.getProxy(HelloService.class);
+        String result = helloService.sayHello("dilireba123122");
         System.out.println(result);
+
     }
 }
