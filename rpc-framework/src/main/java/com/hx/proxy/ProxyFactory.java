@@ -1,11 +1,15 @@
 package com.hx.proxy;
 
 import com.hx.common.Invocation;
+import com.hx.common.URL;
+import com.hx.loadbalance.Loadbalance;
 import com.hx.protocol.HttpClient;
+import com.hx.register.RemoteMapRegister;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.List;
 
 /**
  * ClassName: ProxyFactory
@@ -30,7 +34,15 @@ public class ProxyFactory {
 
                 // 通过HttpClient发送
                 HttpClient httpClient = new HttpClient();
-                String result = httpClient.send("localhost", 8080, invocation);
+
+                // 服务发现
+                List<URL> list = RemoteMapRegister.get(interfaceClass.getName());
+
+                // 负载均衡
+                URL url = Loadbalance.random(list);
+
+                // 服务调用
+                String result = httpClient.send(url.getHostname(), url.getPort(), invocation);
                 return result;
             }
         });
