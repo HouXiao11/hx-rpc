@@ -12,7 +12,7 @@ import java.net.*;
 
 public class HttpClient {
 
-    public String send(String hostname, Integer port, Invocation invocation) {
+    public String send(String hostname, Integer port, Invocation invocation) throws IOException {
 
         // 读取用户的配置 发送http请求
         try {
@@ -34,9 +34,9 @@ public class HttpClient {
             String result = IOUtils.toString(inputStream);
             return result;
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+
         } catch (IOException e) {
-            e.printStackTrace();
+            throw e;
         }
 
         return null;
